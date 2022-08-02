@@ -77,7 +77,7 @@ const loginUsuario = async(req, res = response) => {
         //Confirmar si el password hace match
         const validPasword = bcrypt.compareSync( password, dbUser.password);
         //el validPasword es un booleano
-        
+
 
         if(!validPasword){
             return res.status(400).json({
@@ -108,10 +108,17 @@ const loginUsuario = async(req, res = response) => {
 
 }
 
-const revalidarToken = (req, res = response)=> {
+const revalidarToken = async(req, res = response)=> {
+
+    const {uid, name } = req;
+    
+    const token = await generarJWT(uid, name);
+
     return res.json({
         ok: true,
-        msg: 'Login de usuario /',
+       uid,
+       name,
+       token
     });
 }
 
